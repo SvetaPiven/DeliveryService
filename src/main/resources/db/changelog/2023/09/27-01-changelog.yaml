@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1695808391469-1
+      author: Gwynbleidd (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_deliveries
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: order_id
+                  type: BIGINT
+              - column:
+                  name: courier_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created
+                  type: DATETIME
+              - column:
+                  name: changed
+                  type: DATETIME
+              - column:
+                  name: is_deleted
+                  type: BOOLEAN
+            tableName: deliveries
+

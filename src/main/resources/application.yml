@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/delivery
+    username: postgres
+    password: postgres
+  application:
+    name: orderservice
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        show_sql: true
+        format_sql: true
+        ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/2023/09/27-01-changelog.yaml
+    enabled: true
