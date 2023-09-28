@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,14 +22,14 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private UUID id;
 
     @NotNull
     @Column(name = "order_id", nullable = false)
-    private Long orderId;
+    private UUID orderId;
 
     @Column(name = "courier_id")
-    private Long courierId;
+    private UUID courierId;
 
     @Size(max = 50)
     @NotNull
