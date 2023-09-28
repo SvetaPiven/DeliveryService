@@ -5,24 +5,10 @@ databaseChangeLog:
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - dropColumn:
-            columnName: courier_id
-            tableName: deliveries
-        - dropColumn:
             columnName: id
             tableName: deliveries
         - dropColumn:
             columnName: order_id
-            tableName: deliveries
-  - changeSet:
-      id: 1695904527977-2
-      author: Gwynbleidd (generated)
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - addColumn:
-            columns:
-              - column:
-                  name: courier_id
-                  type: UUID
             tableName: deliveries
   - changeSet:
       id: 1695904527977-4

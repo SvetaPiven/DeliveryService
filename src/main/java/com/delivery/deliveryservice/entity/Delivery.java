@@ -29,7 +29,7 @@ public class Delivery {
     private UUID orderId;
 
     @Column(name = "courier_id")
-    private UUID courierId;
+    private Long courierId;
 
     @Size(max = 50)
     @NotNull
