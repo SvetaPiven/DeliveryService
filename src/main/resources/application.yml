@@ -1,11 +1,15 @@
+server:
+  port: 8888
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/delivery
     username: postgres
-    password: postgres
+    password: root
   application:
     name: delivery-service
+
   jpa:
     properties:
       hibernate:
@@ -14,6 +18,16 @@ spring:
         show_sql: true
         format_sql: true
         ddl-auto: none
+
   liquibase:
     change-log: classpath:db.changelog-master.yml
     enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: drakonishe
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
