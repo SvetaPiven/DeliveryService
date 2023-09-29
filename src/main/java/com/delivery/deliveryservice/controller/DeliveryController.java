@@ -16,6 +16,6 @@ public class DeliveryController {
 
     @GetMapping
     public ResponseEntity<?> getMessage() {
-        return ResponseEntity.ok(kafKaConsumer.getMessages());
+        return ResponseEntity.ok(kafKaConsumer.getMessageFromTopic());
     }
 }
