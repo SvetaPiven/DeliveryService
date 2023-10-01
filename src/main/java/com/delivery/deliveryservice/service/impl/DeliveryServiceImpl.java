@@ -1,9 +1,13 @@
 package com.delivery.deliveryservice.service.impl;
 
+import com.delivery.deliveryservice.dto.request.DeliveryCourierDTO;
 import com.delivery.deliveryservice.entity.Delivery;
+import com.delivery.deliveryservice.entity.enumstatus.EnumStatus;
+import com.delivery.deliveryservice.exception.DeletedDeliveryException;
+import com.delivery.deliveryservice.exception.DeliveryNotFoundException;
+import com.delivery.deliveryservice.exception.WrongEnumValueException;
 import com.delivery.deliveryservice.repository.DeliveryRepository;
 import com.delivery.deliveryservice.service.DeliveryService;
-import com.delivery.deliveryservice.util.UtilEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -14,17 +18,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.delivery.deliveryservice.util.UtilEnum.COURIER_FOUND;
-import static com.delivery.deliveryservice.util.UtilEnum.RECEIVED;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.I_AM_A_TEAPOT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static com.delivery.deliveryservice.entity.enumstatus.EnumStatus.COURIER_FOUND;
+import static com.delivery.deliveryservice.entity.enumstatus.EnumStatus.RECEIVED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Service
@@ -38,48 +38,53 @@ public class DeliveryServiceImpl implements DeliveryService {
     private String urlUserService;
 
     @Transactional
+    @Override
     public void createDelivery(String orderId) {
-        Delivery delivery = new Delivery();
-        delivery.setOrderId(UUID.fromString(orderId));
-        delivery.setCreated(LocalDateTime.now());
-        delivery.setChanged(LocalDateTime.now());
-        delivery.setIsDeleted(false);
-        delivery.setStatus(UtilEnum.CREATED.toString());
+        Delivery delivery = new Delivery().builder()
+                .orderId(UUID.fromString(orderId))
+                .created(LocalDateTime.now())
+                .changed(LocalDateTime.now())
+                .isDeleted(false)
+                .status(EnumStatus.CREATED)
+                .build();
 
         Delivery deliverySave = deliveryRepository.save(delivery);
 
         Long courierId = findCourier(deliverySave.getId());
 
         delivery.setCourierId(courierId);
-        delivery.setStatus(COURIER_FOUND.toString());
+        delivery.setStatus(COURIER_FOUND);
         delivery.setChanged(LocalDateTime.now());
     }
 
     @Transactional
     @Override
-    public void setStatus(UUID uuid, String status) {
-        Delivery deliveryPersist = deliveryRepository.findById(uuid).orElseThrow(() ->
-                new ResponseStatusException((NOT_FOUND), "Id " + uuid + " not found"));
+    public void setStatus(DeliveryCourierDTO deliveryCourierDTO) {
+        UUID deliveryId = UUID.fromString(deliveryCourierDTO.deliveryId());
+        String deliveryStatus = deliveryCourierDTO.status();
+
+        if (EnumStatus.fromValue(deliveryStatus) == null)
+            throw new WrongEnumValueException("Status " +
+                    deliveryStatus + " not found in UtilEnum");
+
+        Delivery deliveryPersist = deliveryRepository.findById(deliveryId).orElseThrow(() ->
+                new DeliveryNotFoundException("Id " + deliveryId + " not found"));
 
         if (Boolean.TRUE.equals(deliveryPersist.getIsDeleted()))
-            throw new ResponseStatusException((BAD_REQUEST), "Delivery is deleted");
+            throw new DeletedDeliveryException("Delivery is deleted");
 
-        if (UtilEnum.fromValue(status) == null)
-            throw new ResponseStatusException((I_AM_A_TEAPOT), "Status " +
-                    status + " not found in UtilEnum");
-
-        deliveryPersist.setStatus(status);
+        deliveryPersist.setStatus(EnumStatus.fromValue(deliveryStatus));
         deliveryPersist.setChanged(LocalDateTime.now());
 
-        if (UtilEnum.fromValue(status) == RECEIVED)
+        if (EnumStatus.fromValue(deliveryStatus) == RECEIVED)
             deliveryPersist.setIsDeleted(true);
 
     }
 
     @Override
-    public String getStatus(UUID uuid) {
-        Delivery deliveryPersist = deliveryRepository.findById(uuid).orElseThrow(() ->
-                new ResponseStatusException((NOT_FOUND), "Id " + uuid + " not found"));
+    public EnumStatus getStatus(String uuid) {
+        Delivery deliveryPersist = deliveryRepository.findById(UUID.fromString(uuid)).orElseThrow(() ->
+                new DeliveryNotFoundException("Id " + uuid + " not found"));
         return deliveryPersist.getStatus();
     }
 

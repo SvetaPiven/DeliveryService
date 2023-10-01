@@ -1,11 +1,12 @@
 package com.delivery.deliveryservice.service;
 
-import java.util.UUID;
+import com.delivery.deliveryservice.dto.request.DeliveryCourierDTO;
+import com.delivery.deliveryservice.entity.enumstatus.EnumStatus;
 
 public interface DeliveryService {
-     void createDelivery(String orderId);
+    void createDelivery(String orderId);
 
-     void setStatus(UUID uuid, String status);
+    void setStatus(DeliveryCourierDTO deliveryCourierDTO);
 
-     String getStatus(UUID uuid);
+    EnumStatus getStatus(String uuid);
 }

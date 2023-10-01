@@ -1,6 +1,6 @@
-package com.delivery.deliveryservice.util;
+package com.delivery.deliveryservice.entity.enumstatus;
 
-public enum UtilEnum {
+public enum EnumStatus {
     CREATED("Created"),
     COURIER_FOUND("Courier found"),
     WAITING_COURIER("Waiting courier"),
@@ -8,7 +8,7 @@ public enum UtilEnum {
     RECEIVED("Received");
     private final String status;
 
-    UtilEnum(String value) {
+    EnumStatus(String value) {
         this.status = value;
     }
 
@@ -17,8 +17,8 @@ public enum UtilEnum {
         return status;
     }
 
-    public static UtilEnum fromValue(String v) {
-        for (UtilEnum c : UtilEnum.values()) {
+    public static EnumStatus fromValue(String v) {
+        for (EnumStatus c : EnumStatus.values()) {
             if (c.status.equals(v)) {
                 return c;
             }

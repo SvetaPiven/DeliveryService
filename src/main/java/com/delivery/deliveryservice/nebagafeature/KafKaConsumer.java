@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-
 @Service
 @RequiredArgsConstructor
 public class KafKaConsumer {
@@ -16,15 +14,8 @@ public class KafKaConsumer {
 
     private static final String GROUP_ID = "drakonishe";
 
-//    private LinkedList<String> messages = new LinkedList<>();
-
     @KafkaListener(topics = TOPIC_NAME, groupId = GROUP_ID)
     public void consume(String message) {
-//        messages.addLast(message);
         deliveryService.createDelivery(message);
     }
-
-//    public String getMessageFromTopic() {
-//        return messages.pollFirst();
-//    }
 }
