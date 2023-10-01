@@ -1,13 +1,17 @@
 package com.delivery.deliveryservice.entity;
 
+import com.delivery.deliveryservice.entity.enumstatus.EnumStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +28,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "deliveries")
@@ -42,7 +47,8 @@ public class Delivery {
     private Long courierId;
 
     @Column(name = "status", nullable = false, length = 50)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private EnumStatus status;
 
     @CreatedDate
     @Column(name = "created", columnDefinition = "TIMESTAMP", nullable = false)
