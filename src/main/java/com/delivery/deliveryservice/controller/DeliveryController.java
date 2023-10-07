@@ -50,7 +50,7 @@ public interface DeliveryController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponseDTO.class))}
             )
     })
-    public void setStatus(@RequestBody @Valid DeliveryCourierDTO deliveryCourierDTO);
+    void setStatus(@RequestBody @Valid DeliveryCourierDTO deliveryCourierDTO);
 
     @Operation(summary = "Поиск статуса доставки",
             description = "Данный эндпоинт предназначен для получения статуса доставки из таблицы deliveries")
@@ -79,7 +79,7 @@ public interface DeliveryController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponseDTO.class))}
             )
     })
-    public ResponseEntity<EnumStatus> getStatus(@RequestBody @Valid DeliveryIdDTO deliveryIdDTO);
+    ResponseEntity<EnumStatus> getStatus(@RequestBody @Valid DeliveryIdDTO deliveryIdDTO);
 
     @Operation(summary = "Поиск статуса доставки",
             description = "Данный эндпоинт предназначен для получения статуса доставки из таблицы deliveries")
@@ -114,5 +114,5 @@ public interface DeliveryController {
                     content = {@Content(schema = @Schema(implementation = ErrorResponseDTO.class))}
             )
     })
-    public void setCourier(@RequestBody @Valid DeliverySetCourierDTO deliverySetCourierDTO);
+    void setCourier(@RequestBody @Valid DeliverySetCourierDTO deliverySetCourierDTO);
 }
