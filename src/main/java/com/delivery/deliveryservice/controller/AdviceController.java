@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.net.ConnectException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,17 @@ public class AdviceController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({WrongEnumValueException.class, DeletedDeliveryException.class})
-    public ErrorResponseDTO handleException(RuntimeException e) {
+    @ExceptionHandler(WrongEnumValueException.class)
+    public ErrorResponseDTO handleException(WrongEnumValueException e) {
+        return new ErrorResponseDTO(
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DeletedDeliveryException.class)
+    public ErrorResponseDTO handleException(DeletedDeliveryException e) {
         return new ErrorResponseDTO(
                 e.getMessage(),
                 LocalDateTime.now()
@@ -64,5 +74,12 @@ public class AdviceController {
         );
     }
 
-
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ConnectException.class)
+    public ErrorResponseDTO handleInternalServerError(ConnectException e) {
+        return new ErrorResponseDTO(
+                "Internal Server Error",
+                LocalDateTime.now()
+        );
+    }
 }
