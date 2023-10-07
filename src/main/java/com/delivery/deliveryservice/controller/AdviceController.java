@@ -78,7 +78,7 @@ public class AdviceController {
     @ExceptionHandler(ConnectException.class)
     public ErrorResponseDTO handleInternalServerError(ConnectException e) {
         return new ErrorResponseDTO(
-                "Internal Server Error",
+                e.getMessage(),
                 LocalDateTime.now()
         );
     }

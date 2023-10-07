@@ -31,6 +31,8 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    implementation group: 'io.swagger.core.v3', name: 'swagger-core', version: '2.2.16'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
