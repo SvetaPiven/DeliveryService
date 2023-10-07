@@ -99,8 +99,10 @@ public class DeliveryServiceImpl implements DeliveryService {
     public void setCourier(DeliverySetCourierDTO deliverySetCourierDTO) {
         Long courierId = Long.valueOf(deliverySetCourierDTO.courierId());
         UUID deliveryId = UUID.fromString(deliverySetCourierDTO.deliveryId());
+
         Delivery deliveryPersist = deliveryRepository.findById(deliveryId).orElseThrow(() ->
                 new DeliveryNotFoundException("Id " + deliveryId + " not found"));
+
         if (deliveryPersist.getStatus() == EnumStatus.SEARCH_COURIER_FOR_DELIVERY) {
             deliveryPersist.setCourierId(courierId);
             deliveryPersist.setStatus(COURIER_FOUND);
