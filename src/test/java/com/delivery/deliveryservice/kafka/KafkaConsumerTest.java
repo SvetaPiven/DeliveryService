@@ -1,6 +1,5 @@
 package com.delivery.deliveryservice.kafka;
 
-import com.delivery.deliveryservice.nebagafeature.KafkaConsumer;
 import com.delivery.deliveryservice.service.DeliveryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,11 @@ import java.util.concurrent.TimeUnit;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 @SpringBootTest
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
 class KafkaConsumerTest {
-    @Autowired
-    private KafkaConsumer consumer;
     @Autowired
     private KafkaProducer producer;
     @Value("${test.topic}")
@@ -60,6 +58,7 @@ class KafkaConsumerTest {
         verify(deliveryService, times(1)).createDelivery(data2);
         verify(deliveryService, times(2)).createDelivery(any());
     }
+
     @Test
     void fail() throws InterruptedException {
         String data1 = "Message 1";

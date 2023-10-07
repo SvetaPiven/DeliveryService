@@ -60,5 +60,4 @@ public class Delivery {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
-
 }

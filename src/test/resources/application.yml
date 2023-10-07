@@ -8,3 +8,5 @@ spring:
       group-id: kafka-integration-testing
 test:
   topic: ordersTopic
+url:
+  userService: http://localhost:8085/api/v1/courier
