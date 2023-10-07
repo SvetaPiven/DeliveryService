@@ -1,15 +1,17 @@
 package com.delivery.deliveryservice.controller;
 
+import com.delivery.deliveryservice.dto.response.ErrorResponseDTO;
+import com.delivery.deliveryservice.exception.CourierNotNeededException;
 import com.delivery.deliveryservice.exception.DeletedDeliveryException;
 import com.delivery.deliveryservice.exception.DeliveryNotFoundException;
 import com.delivery.deliveryservice.exception.WrongEnumValueException;
-import com.delivery.deliveryservice.dto.response.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.net.ConnectException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -25,10 +27,37 @@ public class AdviceController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({WrongEnumValueException.class, DeletedDeliveryException.class})
-    public ErrorResponseDTO handleException(RuntimeException e) {
+    @ExceptionHandler(WrongEnumValueException.class)
+    public ErrorResponseDTO handleException(WrongEnumValueException e) {
         return new ErrorResponseDTO(
                 e.getMessage(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DeletedDeliveryException.class)
+    public ErrorResponseDTO handleException(DeletedDeliveryException e) {
+        return new ErrorResponseDTO(
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
+    @ExceptionHandler({CourierNotNeededException.class})
+    public ErrorResponseDTO handleException(CourierNotNeededException e) {
+        return new ErrorResponseDTO(
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({NumberFormatException.class})
+    public ErrorResponseDTO handleException() {
+        return new ErrorResponseDTO(
+                "Courier id not valid",
                 LocalDateTime.now()
         );
     }
@@ -45,5 +74,12 @@ public class AdviceController {
         );
     }
 
-
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ConnectException.class)
+    public ErrorResponseDTO handleInternalServerError(ConnectException e) {
+        return new ErrorResponseDTO(
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+    }
 }

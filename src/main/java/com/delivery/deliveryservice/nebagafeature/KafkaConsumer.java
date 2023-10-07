@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class KafKaConsumer {
+public class KafkaConsumer {
     private final DeliveryService deliveryService;
 
     private static final String TOPIC_NAME = "ordersTopic";
-
     private static final String GROUP_ID = "drakonishe";
 
     @KafkaListener(topics = TOPIC_NAME, groupId = GROUP_ID)

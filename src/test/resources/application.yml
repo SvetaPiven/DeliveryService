@@ -1,0 +1,12 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:test-master.yml
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      group-id: kafka-integration-testing
+test:
+  topic: ordersTopic
+url:
+  userService: http://localhost:8085/api/v1/courier

@@ -1,9 +1,8 @@
 package com.delivery.deliveryservice.entity.enumstatus;
 
 public enum EnumStatus {
-    CREATED("Created"),
+    SEARCH_COURIER_FOR_DELIVERY("Search courier for delivery"),
     COURIER_FOUND("Courier found"),
-    WAITING_COURIER("Waiting courier"),
     SEND_FOR_DELIVERY("Send for delivery"),
     RECEIVED("Received");
     private final String status;

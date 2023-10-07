@@ -1,6 +1,7 @@
 package com.delivery.deliveryservice.service;
 
 import com.delivery.deliveryservice.dto.request.DeliveryCourierDTO;
+import com.delivery.deliveryservice.dto.request.DeliverySetCourierDTO;
 import com.delivery.deliveryservice.entity.enumstatus.EnumStatus;
 
 public interface DeliveryService {
@@ -9,4 +10,6 @@ public interface DeliveryService {
     void setStatus(DeliveryCourierDTO deliveryCourierDTO);
 
     EnumStatus getStatus(String uuid);
+
+    void setCourier(DeliverySetCourierDTO deliverySetCourierDTO);
 }
