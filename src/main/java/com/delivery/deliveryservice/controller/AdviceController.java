@@ -1,9 +1,10 @@
 package com.delivery.deliveryservice.controller;
 
+import com.delivery.deliveryservice.dto.response.ErrorResponseDTO;
+import com.delivery.deliveryservice.exception.CourierNotNeededException;
 import com.delivery.deliveryservice.exception.DeletedDeliveryException;
 import com.delivery.deliveryservice.exception.DeliveryNotFoundException;
 import com.delivery.deliveryservice.exception.WrongEnumValueException;
-import com.delivery.deliveryservice.dto.response.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +30,24 @@ public class AdviceController {
     public ErrorResponseDTO handleException(RuntimeException e) {
         return new ErrorResponseDTO(
                 e.getMessage(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
+    @ExceptionHandler({CourierNotNeededException.class})
+    public ErrorResponseDTO handleException(CourierNotNeededException e) {
+        return new ErrorResponseDTO(
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({NumberFormatException.class})
+    public ErrorResponseDTO handleException() {
+        return new ErrorResponseDTO(
+                "Courier id not valid",
                 LocalDateTime.now()
         );
     }
