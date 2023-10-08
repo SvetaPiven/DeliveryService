@@ -60,7 +60,7 @@ class KafkaConsumerTest {
     }
 
     @Test
-    void fail() throws InterruptedException {
+    void givenEmbeddedKafkaBroker_whenSendingMultipleMessages_withFailMessage() throws InterruptedException {
         String data1 = "Message 1";
         String data2 = "Message 2";
         String data3 = "Message 3";

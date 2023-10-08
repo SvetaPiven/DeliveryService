@@ -37,7 +37,7 @@ class DeliveryRepositoryTest {
     }
 
     @Test
-    void saveAndFindById_withValidDelivery_returnODeliveryAndSaveDelivery() {
+    void saveAndFindById_withValidDelivery_returnDeliveryAndSaveDelivery() {
         Delivery deliveryTransient = Delivery.builder()
                 .orderId(UUID.randomUUID())
                 .courierId(1L)
@@ -46,7 +46,6 @@ class DeliveryRepositoryTest {
                 .changed(LocalDateTime.now())
                 .isDeleted(false)
                 .build();
-
 
         Delivery deliveryPersist = deliveryRepository.save(deliveryTransient);
         assertNotNull(deliveryPersist.getId());
