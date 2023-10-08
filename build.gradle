@@ -44,7 +44,7 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:kafka'
     testImplementation 'org.testcontainers:postgresql'
-
+    testImplementation 'org.wiremock:wiremock:3.2.0'
 }
 
 tasks.named('test') {
