@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/delivery
-    username: postgres
-    password: password
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/delivery}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:maxim}
   application:
     name: delivery-service
 
@@ -24,7 +24,7 @@ spring:
     enabled: true
 
   kafka:
-    bootstrap-servers: localhost:29092
+    bootstrap-servers: ${KAFKA_HOST:localhost:29092}
     consumer:
       group-id: drakonishe
       auto-offset-reset: earliest
@@ -32,4 +32,4 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 url:
-  userService: http://localhost:8085/api/v1/courier
+  userService: http://mockuserservice:8085/api/v1/courier
